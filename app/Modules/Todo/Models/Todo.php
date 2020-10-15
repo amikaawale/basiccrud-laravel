@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Modules\Todo\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Todo extends Model
@@ -17,13 +18,24 @@ class Todo extends Model
         return $this->hasMany(step::class);
     }
 
-//    /**
-//     * Get the post that owns the comment.
-//     */
-//    public function user()
-//    {
-//        return $this->belongsTo(User::class);
-//    }
+
+    public function format()
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+//            'created_by' => $this->user
+//            'created_at' => $this->created_at->diff
+        ];
+    }
+
+    /**
+     * Get the post that owns the comment.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 //
 //    /**

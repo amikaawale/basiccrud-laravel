@@ -1,10 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Todo\Controllers;
 
+//namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
 use App\Http\Requests\TodoCreateRequest;
-use App\step;
-use App\Todo;
+use App\Modules\Todo\Models\Todo;
+use App\Modules\Todo\Models\Step;
+use App\Modules\Todo\Repositories\TodoInterface;
+use App\Modules\Todo\Repositories\TodoRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -12,9 +17,12 @@ use Illuminate\Support\Facades\Validator;
 class TodoController extends Controller
 {
 
-    public function __construct()
+    private $todoRepository;
+
+    public function __construct(TodoInterface $todoRepository)
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+        $this->todoRepository = $todoRepository;
 
     }
 
@@ -22,11 +30,14 @@ class TodoController extends Controller
     {
 
 //        $todos = Todo::all();
-        $todos = Todo::orderBy('completed','desc')->get();
-        $todos = auth()->user()->todos()->orderBy('completed')->get();
+       //// $todos = Todo::orderBy('completed','desc')->get();
+//        $todos = auth()->user()->todos()->orderBy('completed')->get();
 
 
-        $todos = auth()->user()->todos->sortBy('completed');
+       // $todos = auth()->user()->todos->sortBy('completed');
+
+        $todos = $this->todoRepository->getAllTodos();
+
         return view('todos.index')->with(['todos' => $todos]);
     }
 

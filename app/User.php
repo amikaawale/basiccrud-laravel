@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Modules\Todo\Models\Todo;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

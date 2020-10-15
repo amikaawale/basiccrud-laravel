@@ -19,30 +19,11 @@ Route::middleware('auth')->group(function (){
 
     Route::resource('test','TestController');
 
-    Route::get('/todos','TodoController@index')->name('todo.index');
-
-    Route::get('/todos/create','TodoController@create')->name('todo.create');
-
-    Route::get('/todos/{todo}/edit','TodoController@edit')->name('todo.edit');
-
-    Route::post('/todos/create','TodoController@store')->name('todo.store');
-
-    Route::patch('/todos/{todo}/update','TodoController@update')->name('todo.update');
-
-    Route::put('/todos/{todo}/complete','TodoController@complete')->name('todo.complete');
-
-    Route::put('/todos/{todo}/incomplete','TodoController@incomplete')->name('todo.incomplete');
-
-    Route::delete('/todos/{todo}/delete','TodoController@delete')->name('todo.delete');
-
-    Route::get('/todos/{todo}/show','TodoController@show')->name('todo.show');
-
-
 });
 
 
 
-
+require_once app_path()."/Modules/Todo/route.php";
 
 
 
