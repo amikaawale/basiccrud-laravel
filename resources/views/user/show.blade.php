@@ -55,11 +55,24 @@
                   </tr>
                   <tr>
                       <td>Roles</td>
-                      <td></td>
+                      <td>
+                          @if($user->roles->isNotEmpty())
+                              @foreach($user->roles as $role)
+                                  <span class="label label-primary">{{ $role->name }}</span>
+                              @endforeach
+                          @endif
+                      </td>
+
                   </tr>
                   <tr>
                       <td>Permissions</td>
-                      <td></td>
+                      <td>
+                          @if($user->permissions->isNotEmpty())
+                              @foreach($user->permissions as $permission)
+                                  <span class="label label-success">{{ $permission->name }}</span>
+                              @endforeach
+                          @endif
+                      </td>
                   </tr>
               </table>
         </div>

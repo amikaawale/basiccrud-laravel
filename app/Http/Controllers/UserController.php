@@ -110,6 +110,20 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
 
         $user->save();
+
+        if($request->role != null) {
+            $user->roles()->attach($request->role);
+            $user->save();
+        }
+
+        if($request->permissions != null) {
+             foreach ($request->permissions as $permission){
+                 $user->permissions()->attach($permission);
+                 $user->permissions();
+                 $user->save();
+             }
+        }
+
         return redirect()->route('user.index')->with('message','User is successfully created.');
 
     }
@@ -135,7 +149,24 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('user.edit',compact('user'));
+        $roles = Role::get();
+        $userRole = $user->roles->first();
+        if($userRole != null){
+            $rolePermissions = $userRole->allRolePermissions;
+        }else{
+            $rolePermissions = null;
+        }
+        $userPermissions = $user->permissions;
+
+        // dd($rolePermission);
+
+        return view('user.edit', [
+            'user'=>$user,
+            'roles'=>$roles,
+            'userRole'=>$userRole,
+            'rolePermissions'=>$rolePermissions,
+            'userPermissions'=>$userPermissions
+        ]);
     }
 
     /**
@@ -148,19 +179,34 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        $name = $request->name;
-        $email = $request->email;
-        $password = $request->password;
-        $cPassword = $request->confirm_password;
+        //validate the fields
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'confirmed',
+        ]);
 
-        if($password != $cPassword){
-            return redirect()->back()->with('error','Password and Confirm password mismatch.');
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if($request->password != null){
+            $user->password = Hash::make($request->password);
         }
-        $user->name = $name;
-        $user->email = $email;
-        $user->password = Hash::make($password);
-
         $user->save();
+
+        $user->roles()->detach();
+        $user->permissions()->detach();
+
+        if($request->role != null){
+            $user->roles()->attach($request->role);
+            $user->save();
+        }
+
+        if($request->permissions != null){
+            foreach ($request->permissions as $permission) {
+                $user->permissions()->attach($permission);
+                $user->save();
+            }
+        }
 
         return redirect()->route('user.index')->with('message','User updated successfull.');
 

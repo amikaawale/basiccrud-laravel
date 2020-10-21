@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Modules\Todo\Models\Todo;
+use App\Traits\HasRolesAndPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasRolesAndPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
 
-    // protected $guarded = []; 
+    // protected $guarded = [];
     protected $fillable = [
         'name', 'email', 'password','avatar',
     ];
@@ -63,7 +64,7 @@ class User extends Authenticatable
 
     public function todos()
     {
-        
+
       return $this->hasMany(Todo::class);
 
     }

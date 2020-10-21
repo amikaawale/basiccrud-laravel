@@ -48,17 +48,30 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($users as $users)
-                        <tr>
-                            <td>{{ $users->index + 1}}</td>
-                            <td>{{ $users->name }}</td>
-                            <td>{{ $users->email }}</td>
-                            <td>Roles</td>
-                            <td>Permissions</td>
+                        @foreach($users as $user)
+{{--                            @if(!\Auth::user()->hasRole('admin') && $user->hasRole('admin')) @continue; @endif--}}
+                            <tr {{ Auth::user()->id == $user->id ? 'bgcolor=#ddd' : '' }}>
+                            <td>{{ $user->index + 1}}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
                             <td>
-                                <a href="{{ route('user.edit',['user'=>$users->id]) }}" class="text-blue" title="Edit"><i class="icon-pencil7"></i></a>
-                                <a href="{{ route('user.show',['user'=>$users->id]) }}" class="text-green" title="Edit"><i class="icon-eye"></i></a>
-                                <a href=""  data-toggle="modal" data-target="#deleteModal" data-userid="{{ $users->id }}">
+                                @if($user->roles->isNotEmpty())
+                                @foreach($user->roles as $role)
+                                   <span class="label label-default">{{ $role->name }}</span>
+                                @endforeach
+                                @endif
+                            </td>
+                            <td>
+                                    @if($user->permissions->isNotEmpty())
+                                        @foreach($user->permissions as $permission)
+                                            <span class="label label-default">{{ $permission->name }}</span>
+                                        @endforeach
+                                    @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('user.edit',['user'=>$user->id]) }}" class="text-blue" title="Edit"><i class="icon-pencil7"></i></a>
+                                <a href="{{ route('user.show',['user'=>$user->id]) }}" class="text-green" title="Edit"><i class="icon-eye"></i></a>
+                                <a href=""  data-toggle="modal" data-target="#deleteModal" data-userid="{{ $user->id }}">
                                     <i class="icon-trash"></i>
                                 </a>
                             </td>
