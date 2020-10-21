@@ -18,21 +18,18 @@ use Illuminate\Http\Request;
 Route::middleware('auth')->group(function (){
 
     Route::resource('test','TestController');
+    Route::resource('user','UserController');
+    Route::resource('roles','RolesController');
 
 });
 
-
-
 require_once app_path()."/Modules/Todo/route.php";
-
-
-
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user', 'UserController@index');
+//Route::get('/user', 'UserController@index');
 
 Auth::routes();
 
@@ -45,7 +42,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //         $request->image->store('images','public');
 //         return 'Uploaded';
 //     }
-   
+
 //     });
 
 Route::post('/upload', 'UserController@uploadAvatar');

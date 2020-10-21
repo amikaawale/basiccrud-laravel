@@ -34,6 +34,22 @@
                     <!-- Main -->
                     <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
                     <li class="active"><a href="{{ route('home') }}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+
+                    <li>
+                        <a href="#"><i class="icon-stack2"></i> <span>Roles</span></a>
+                        <ul>
+                            <li><a href="{{ route('roles.index') }}">List</a></li>
+                            <li><a href="{{ route('roles.create') }}">New</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="icon-stack2"></i> <span>Users</span></a>
+                        <ul>
+                            <li><a href="{{ route('user.index') }}">List</a></li>
+                            <li><a href="{{ route('user.create') }}">New</a></li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="#"><i class="icon-stack2"></i> <span>Todos</span></a>
                         <ul>
